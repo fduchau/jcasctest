@@ -12,7 +12,7 @@ jenkins:
     - "Ping"
   disableRememberMe: false
   mode: NORMAL
-  numExecutors: 2
+  numExecutors: 3
   primaryView:
     all:
       name: "all"
@@ -50,20 +50,3 @@ tool:
           installers:
             - jdkInstaller:
                 acceptLicense: false
-unclassified:
-  mailer:
-    adminAddress: admin@acme.org
-    replyToAddress: do-not-reply@acme.org
-    # Note that this does not work right now
-    #smtpHost: smtp.acme.org
-    smtpPort: 4441
-    charset: UTF-8
-    useSsl: false
-  globalLibraries:
-    libraries:
-      - name: "awesome-lib"
-        retriever:
-          modernSCM:
-            scm:
-              git:
-                remote: "https://github.com/jenkins-infra/pipeline-library.git"
