@@ -1,0 +1,69 @@
+plugins:
+  sites:
+    - id: "default"
+      url: "http://updates.jenkins-ci.org/update-center.json"
+jenkins:
+  agentProtocols:
+    - "CLI-connect"
+    - "CLI2-connect"
+    - "JNLP-connect"
+    - "JNLP2-connect"
+    - "JNLP4-connect"
+    - "Ping"
+  disableRememberMe: false
+  mode: NORMAL
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  quietPeriod: 5
+  scmCheckoutRetryCount: 0
+  slaveAgentPort: 0
+  views:
+    - all:
+        name: "all"
+  clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "unix:///var/run/docker.sock"
+        templates:
+          - labelString: "docker-agent"
+            dockerTemplateBase:
+              image: "jenkins/slave"
+              volumes:
+                - hello:/hello
+                - world:/world
+              environmentsString: |
+                hello=world
+                foo=bar
+            remoteFs: "/home/jenkins/agent"
+            connector:
+              attach:
+                user: "jenkins"
+            instanceCapStr: "10"
+tool:
+  jdk:
+    defaultProperties:
+      - installSource:
+          installers:
+            - jdkInstaller:
+                acceptLicense: false
+unclassified:
+  mailer:
+    adminAddress: admin@acme.org
+    replyToAddress: do-not-reply@acme.org
+    # Note that this does not work right now
+    #smtpHost: smtp.acme.org
+    smtpPort: 4441
+    charset: UTF-8
+    useSsl: false
+  globalLibraries:
+    libraries:
+      - name: "awesome-lib"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/jenkins-infra/pipeline-library.git"
